@@ -552,7 +552,7 @@ var VM = new Vue({
                 colorStops: [
                   {
                     offset: 1,
-                    color: ['#ff8764'], // 0% 处的颜色
+                    color: ['#E25B65'], // 0% 处的颜色
                   },
                 ],
               },
@@ -561,7 +561,7 @@ var VM = new Vue({
               show: true,
               borderDistance: 2,
               itemStyle: {
-                borderColor: '#FFBBA7',
+                borderColor: '#E25B65',
                 borderWidth: 2,
               },
             },
@@ -806,16 +806,16 @@ var VM = new Vue({
       let radius, color
       if (eval(locationY) == 4) {
         radius = '45px'
-        color = '#ff8764'
+        color = '#E25B65'
       } else if (eval(locationY) == 3) {
         radius = '35px'
-        color = '#feb557'
+        color = '#E25B65'
       } else if (eval(locationY) == 2) {
         radius = '30px'
-        color = '#fee557'
+        color = '#E25B65'
       } else if (eval(locationY) == 1) {
         radius = '22px'
-        color = '#a0dc9c'
+        color = '#E25B65'
       }
       console.log(locationX, locationY, extent)
       let notesCmd = `this.notes.beat${locationX}[${locationY}]`
@@ -884,7 +884,7 @@ var VM = new Vue({
 
     async callSerial() {
       // const ports = await navigator.serial.getPorts(); //获取之前所有允许过的串口
-
+      // console.log(ports)
       if ('serial' in navigator) {
         // The Web Serial API is supported.
 
@@ -900,8 +900,10 @@ var VM = new Vue({
           { usbVendorId: 0x2341, usbProductId: 0x0001 },
         ]
 
+        // const ports = await navigator.serial.getPorts();
+
         const port = await navigator.serial
-          .requestPort({ filters })
+          .requestPort({  })
           .catch(() => {
             loading.style.visibility = 'hidden'
             mask.style.visibility = 'hidden'
@@ -918,6 +920,7 @@ var VM = new Vue({
           mask.style.visibility = 'hidden'
           // const { usbProductId, usbVendorId } = port.getInfo();
           // console.log(usbProductId,usbVendorId)
+          await port.open({ baudRate: 57600 })
         } else {
           this.$message({
             message: '似乎没有找到可供连接的设备~',
@@ -925,22 +928,52 @@ var VM = new Vue({
           })
         }
         // Wait for the serial port to open.
-        await port.open({ baudRate: 9600 })
 
         const textDecoder = new TextDecoderStream()
-        const readableStreamClosed = port.readable.pipeTo(textDecoder.writable)
+        port.readable.pipeTo(textDecoder.writable)
         const reader = textDecoder.readable.getReader()
+        
+        // const reader = port.readable.getReader();
 
         // Listen to data coming from the serial device.
         while (true) {
+          var seriValue
           const { value, done } = await reader.read()
           if (done) {
             // Allow the serial port to be closed later.
-            reader.releaseLock()
+            // reader.releaseLock()
             break
           }
+          //捕获上一次打印的字符串
+          // var lastlog
+          // console.oldLog = console.log
+          // console.log = function (str) {
+          //   console.oldLog(str)
+          //   lastlog = str
+          // }
+
+          //9123 123
+          if (value.length != 1 & value.length!=2) {
+            console.log("arduino输入值 "+value )
+            if (value.length != 5) {
+              seriValue = value.slice(-7)
+            } else {
+              seriValue = value
+            }
+            console.log("输出value  ",seriValue)
+            // console.log(value.slice(1))
+          } else { }
+          // console.log(typeof(value))
+
+          // if (value.length == 1) {
+          //   return false
+          // } else {
+          // this.printSeriValue(value)
+          // }
+          // reader.releaseLock()
+          //   break
           // value is a string.
-          this.handleSeriValue(value) //处理串口信息数据
+          this.handleSeriValue(seriValue) //处理串口信息数据
         }
       } else {
         this.$message({
