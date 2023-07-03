@@ -2,11 +2,8 @@
 <html lang="en" style="
     width: 1030px;
     height: 768px;
-    color: #fffcf7;
     background: url('/assets/img/background3.png') center / contain no-repeat,
       #fffcf7;
-    --bs-body-bg: #fffcf7;
-    --bs-primary: #fffcf7;
     --bs-primary-rgb: 176, 227, 254;
   ">
 
@@ -45,7 +42,7 @@
           background: url('/assets/img/background3.png') center / contain
               no-repeat,
             transparent;
-          padding-top: 84px;
+          padding-top: 76px;
         ">
       <div
         style="width: 600px;height: 600px;margin-right: 223px;margin-left: 231px;background: url(&quot;/assets/img/circle3.png&quot;) center / cover;transform: translate(0px);">
@@ -303,7 +300,9 @@
           </div>
 
           <div style=" position: absolute; width: 530px;height: 530px;margin-top: 514px;margin-left: 1200px;">
-            <span style=" font-weight: 700;rotate: 12deg;color:#409eff; position: absolute; margin-top: 155px;margin-left: -298px;">乐谱节奏</span>
+            <span style=" font-weight: 700;rotate: 12deg;color:#409eff; position: absolute; margin-top: 155px;margin-left: -322px;">
+              Musical Rhythm
+              </span>
             <el-slider :disabled="running" style="rotate: 12deg;" :max="90" :min="10" v-model="speed" vertical :step="10" show-stops  height="200px">
             </el-slider>
           </div>

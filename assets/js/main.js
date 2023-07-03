@@ -806,16 +806,16 @@ var VM = new Vue({
       let radius, color
       if (eval(locationY) == 4) {
         radius = '45px'
-        color = '#E25B65'
+        color = '#F6AE46'
       } else if (eval(locationY) == 3) {
         radius = '35px'
-        color = '#E25B65'
+        color = '#F6AE46'
       } else if (eval(locationY) == 2) {
         radius = '30px'
-        color = '#E25B65'
+        color = '#F6AE46'
       } else if (eval(locationY) == 1) {
         radius = '22px'
-        color = '#E25B65'
+        color = '#F6AE46'
       }
       console.log(locationX, locationY, extent)
       let notesCmd = `this.notes.beat${locationX}[${locationY}]`
